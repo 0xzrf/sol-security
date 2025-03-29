@@ -1,7 +1,7 @@
 use anchor_lang::prelude::*;
 use anchor_spl::token::{self, Mint, Token, TokenAccount};
 
-declare_id!("AJKGDWGif3cCbAWy7xdzFdkNkcZgGYQzEDfLVeksL1Wg");
+declare_id!("BinKJvsMzwqAv3Gw8S7gN1cXobAjVM5pJcsKk9tKwVYv");
 
 const DISCRIMINATOR_SIZE:usize = 8;
 
@@ -74,7 +74,7 @@ pub struct InsecureWithdraw<'info> {
     pub withdraw_destination: Account<'info, TokenAccount>,
     pub token_program: Program<'info, Token>,
     /// CHECK: demo missing signer check
-    pub authority: UncheckedAccount<'info>,
+    pub authority: Signer<'info>,
 }
 
 #[account]

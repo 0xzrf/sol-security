@@ -1,5 +1,5 @@
 [workspace]
-members = ["programs/*"]
+members = ["programs/*", "secure-signer-authorization"]
 resolver = "2"
 
 [profile.release]
