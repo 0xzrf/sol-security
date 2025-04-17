@@ -2,6 +2,7 @@ use crate::fuzz_transactions::FuzzAccounts;
 use crate::types::*;
 use borsh::{BorshDeserialize, BorshSerialize};
 use trident_fuzz::fuzzing::*;
+
 #[derive(Arbitrary, TridentInstruction)]
 #[program_id("6yxyBEwKowMWfYkuvUi9USF8coef9r55MqPfYouCmg3w")]
 # [discriminator ([175u8 , 175u8 , 109u8 , 31u8 , 13u8 , 152u8 , 155u8 , 237u8 ,])]
@@ -9,6 +10,7 @@ pub struct InitializeInstruction {
     pub accounts: InitializeInstructionAccounts,
     pub data: InitializeInstructionData,
 }
+
 /// Instruction Accounts
 #[derive(Arbitrary, Debug, Clone, TridentAccounts)]
 #[instruction_data(InitializeInstructionData)]
@@ -29,6 +31,7 @@ pub struct InitializeInstructionAccounts {
     #[account(address = "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA")]
     token_program: TridentAccount,
 }
+
 /// Instruction Data
 #[derive(Arbitrary, Debug, BorshDeserialize, BorshSerialize, Clone)]
 pub struct InitializeInstructionData {
