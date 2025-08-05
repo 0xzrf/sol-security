@@ -1,3 +1,4 @@
+// flag :  ST_FLAG{1sol_2sol_3sol_truth}
 import { AnchorProvider, Program, Wallet } from '@coral-xyz/anchor';
 import { Connection, Keypair, LAMPORTS_PER_SOL, PublicKey, sendAndConfirmTransaction, SystemProgram, Transaction } from '@solana/web3.js';
 import idl from "../idl.json" with { type: "json" }
@@ -22,10 +23,10 @@ describe("Ghost test", () => {
 
   test("Test", async () => {
 
-    // const balance = await connection.getBalance(keypair.publicKey);
 
-    let secretNumber = LAMPORTS_PER_SOL; // The hint is in the "From SOL to lamports", meaning, that the secret number is 1 sol in lamports
+    let secretNumber = LAMPORTS_PER_SOL; // The hint is in the "From SOL to lamports", meaning, that the secret number is 1 sol in lampor
     console.log("Secret Number::", secretNumber)
+    // Let it loop, and whenever you get a the right signature, you'll probably get part of the flag
     while (secretNumber < 10_000_000_000) {
       try {
         const tx = new Transaction().add(
@@ -45,7 +46,7 @@ describe("Ghost test", () => {
           commitment: "finalized",
         })
         console.log("Sig::", sig)
-        
+        secretNumber += 1_000_000_000;
       } catch (error) { 
         console.log("Error: ", error);
         secretNumber += 1_000_000_000;
@@ -81,10 +82,12 @@ async function sendSol({
 
   return sig;
 }
-
-
-// You'll have to get this from the public key. First use anchor idl fetch <PROGRAM_ID> > idl.json, then use that idl.json to generate types
-// using anchor idl type idl.json > idlType.ts, you'll get something like the following
+/**
+ * Program IDL in camelCase format in order to be used in JS/TS.
+ *
+ * Note that this is only a type helper and is not the actual IDL. The original
+ * IDL can be found at `target/idl/logs_of_truth.json`.
+ */
 export type LogsOfTruth = {
   "address": "5zzgo53dmRCCwrxX3q7UDmssW26Gh4f7Y8J2mEE7Rvds",
   "metadata": {
