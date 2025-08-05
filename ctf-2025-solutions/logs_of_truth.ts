@@ -2,6 +2,7 @@
 import { AnchorProvider, Program, Wallet } from '@coral-xyz/anchor';
 import { Connection, Keypair, LAMPORTS_PER_SOL, PublicKey, sendAndConfirmTransaction, SystemProgram, Transaction } from '@solana/web3.js';
 import idl from "../idl.json" with { type: "json" }
+import secret from "../secret.json" with { type: "json" }
 import { bs58 } from '@coral-xyz/anchor/dist/cjs/utils/bytes';
 import { test } from 'mocha';
 import * as anchor from "@coral-xyz/anchor";
@@ -9,7 +10,7 @@ import * as anchor from "@coral-xyz/anchor";
 describe("Ghost test", () => {
 
   const connection = new Connection('https://api.devnet.solana.com'); // or devnet/localnet
-  const secretKey = bs58.decode("") // Enter your secret key here
+  const secretKey = bs58.decode(secret.privateKey) // Enter your secret key here
   const keypair = Keypair.fromSecretKey(new Uint8Array(secretKey))
   const wallet = {
     publicKey: keypair.publicKey,
@@ -23,10 +24,10 @@ describe("Ghost test", () => {
 
   test("Test", async () => {
 
+    // const balance = await connection.getBalance(keypair.publicKey);
 
     let secretNumber = LAMPORTS_PER_SOL; // The hint is in the "From SOL to lamports", meaning, that the secret number is 1 sol in lampor
     console.log("Secret Number::", secretNumber)
-    // Let it loop, and whenever you get a the right signature, you'll probably get part of the flag
     while (secretNumber < 10_000_000_000) {
       try {
         const tx = new Transaction().add(
@@ -82,12 +83,13 @@ async function sendSol({
 
   return sig;
 }
-/**
- * Program IDL in camelCase format in order to be used in JS/TS.
- *
- * Note that this is only a type helper and is not the actual IDL. The original
- * IDL can be found at `target/idl/logs_of_truth.json`.
- */
+
+// The steps to get this are following:
+// anchor idl fetch <PROGRAM_ID> > idl.json 
+// This will give you the idl of the program that you specified, then write the folloing:
+// anchor idl type idl.json > idlType.ts
+// The output of the this idlType.ts is gonna be the following:
+
 export type LogsOfTruth = {
   "address": "5zzgo53dmRCCwrxX3q7UDmssW26Gh4f7Y8J2mEE7Rvds",
   "metadata": {
